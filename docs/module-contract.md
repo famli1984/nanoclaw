@@ -66,7 +66,7 @@ export function registerDeliveryAction(action: string, handler: ActionHandler): 
 
 **Default when action is unknown:** log `"Unknown system action"` at `warn` and return. Message is still marked delivered (it was consumed by the host, not sent to a channel).
 
-**Current consumers:** scheduling (5 actions — `schedule_task`, `cancel_task`, `pause_task`, `resume_task`, `update_task`), approvals (3 actions — `install_packages`, `request_rebuild`, `add_mcp_server`), agent-to-agent (`create_agent`, and the agent-routing branch keyed as a pseudo-action `agent_route`).
+**Current consumers:** scheduling (5 actions — `schedule_task`, `cancel_task`, `pause_task`, `resume_task`, `update_task`), approvals (2 actions — `install_packages`, `add_mcp_server`), agent-to-agent (`create_agent`, and the agent-routing branch keyed as a pseudo-action `agent_route`).
 
 ### 2. Router sender resolver + access gate
 
@@ -173,7 +173,7 @@ Some code stays in core but references module-owned tables. These use `sqlite_ma
 | `delivery.ts` channel-permission check (`agent_destinations`) | agent-to-agent | permit (origin-chat always OK) |
 | `delivery.ts` `createPendingQuestion` (`pending_questions`) | interactive | no-op (log warning) |
 
-`container/agent-runner/src/formatter.ts` has a related non-DB fallback: when `NANOCLAW_ADMIN_USER_IDS` is empty, every sender is treated as admin (permissionless mode). This is the one-line change from the current deny-all behavior.
+Container-side admin gating no longer exists. Admin authorization is now performed host-side in `src/command-gate.ts`, which queries `user_roles` directly — no env var is passed to the container, and no agent-runner fallback exists.
 
 ## Migrations
 

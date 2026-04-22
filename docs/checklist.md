@@ -135,9 +135,8 @@ Status: [x] done, [~] partial, [ ] not started
 - [x] list_tasks
 - [x] cancel_task / pause_task / resume_task
 - [x] create_agent (any agent, creates agent group + folder + bidirectional destinations; host re-normalizes the name, deduplicates folder, path-traversal guarded)
-- [x] install_packages (apt/npm, owner/admin approval required via `pickApprover`, strict name validation)
-- [x] add_mcp_server (owner/admin approval required via `pickApprover`)
-- [x] request_rebuild (rebuilds per-agent-group Docker image)
+- [x] install_packages (apt/npm, owner/admin approval required via `pickApprover`, strict name validation; single approval step covers the image rebuild + container restart)
+- [x] add_mcp_server (owner/admin approval required via `pickApprover`; approval triggers container restart, no image rebuild needed — bun runs TS directly)
 
 ## Scheduling
 
@@ -149,16 +148,15 @@ Status: [x] done, [~] partial, [ ] not started
 
 ## Permissions and Approval Flows
 
-- [x] User-level privilege model — `users` + `user_roles` (owner / admin, global or scoped to an agent group). Replaces the old `agent_groups.is_admin` / `messaging_groups.admin_user_id` coupling. See `src/db/users.ts`, `src/db/user-roles.ts`, `src/access.ts`.
-- [x] Admin-only command filtering in container — host passes `NANOCLAW_ADMIN_USER_IDS` (owners + global admins + scoped admins for the agent group) to the agent-runner; `poll-loop.ts` gates slash commands against that set.
-- [x] Approval routing — `pickApprover` (scoped admin → global admin → owner, dedup) + `pickApprovalDelivery` (first reachable, same-channel-kind tie-break); delivery lands in the approver's DM via `ensureUserDm` / `user_dms` cache. See `src/access.ts`, `src/onecli-approvals.ts`.
+- [x] User-level privilege model — `users` + `user_roles` (owner / admin, global or scoped to an agent group). Replaces the old `agent_groups.is_admin` / `messaging_groups.admin_user_id` coupling. See `src/modules/permissions/db/users.ts`, `src/modules/permissions/db/user-roles.ts`, `src/modules/permissions/access.ts`.
+- [x] Admin-only command filtering — gate runs host-side in `src/command-gate.ts`, querying `user_roles` directly. The container receives no admin identity (no env var, no fallback).
+- [x] Approval routing — `pickApprover` (scoped admin → global admin → owner, dedup) + `pickApprovalDelivery` (first reachable, same-channel-kind tie-break); delivery lands in the approver's DM via `ensureUserDm` / `user_dms` cache. See `src/modules/approvals/primitive.ts`, `src/modules/approvals/onecli-approvals.ts`.
 - [x] Per-messaging-group unknown-sender gating — `messaging_groups.unknown_sender_policy` (`strict` | `request_approval` | `public`), enforced in `src/router.ts`.
 - [x] Approval flow (sensitive action -> card to admin -> approve/reject -> execute) — `pending_approvals` table, `requestApproval()` helper, reuses interactive card infra
 - [x] Agent requests dependency/package install (install_packages, admin approval, rebuild on approval)
 - [x] Self-modification — direct tools:
-  - [x] install_packages (apt/npm, admin approval, name validation both sides, max 20 per request)
-  - [x] add_mcp_server (admin approval)
-  - [x] request_rebuild (builds per-agent-group Docker image with approved packages)
+  - [x] install_packages (apt/npm, admin approval, name validation both sides, max 20 per request; on approve → handler rebuilds the image, kills the container, schedules a verify-and-report follow-up prompt)
+  - [x] add_mcp_server (admin approval; on approve → handler updates `container.json`, kills the container — no image rebuild)
   - [x] Fire-and-forget model (write request, return immediately; chat notification on approval; container killed so next wake picks up new config/image)
 - [~] OneCLI integration for human-loop approvals on credentialed requests (agent touching a credentialed resource → OneCLI gates → approval card to admin → OneCLI releases credential) — SDK 0.3.1 `configureManualApproval` wired into host, routes to admin via existing `pending_approvals` infra
 - [ ] Tunneled OneCLI dashboard for credential addition (Telegram Mini Apps aside, iMessage without Apple Business Register, Matrix, email). Signed short-lived URL → browser form served by OneCLI at 10254 → tunnel via cloudflare durable object. Value never touches the chat surface.
