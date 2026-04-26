@@ -23,6 +23,7 @@
 | [[PersonalAssistant/CLAUDE\|PersonalAssistant]] | Sport & Gesundheit | Suse-EA / Andy-EA |
 | [[ManagementConsultant/CLAUDE\|ManagementConsultant]] | System-Optimierung | Suse-EA / Andy-EA |
 | [[Steuerberater/CLAUDE\|Steuerberater]] | Steuern & absetzbare Ausgaben | Andy-EA / Suse-EA |
+| [[Knaufi/CLAUDE\|Knaufi]] | Hausaufgaben-Coach & Lernbegleitung Felix | Fabio (Felix-EA) |
 
 ---
 *Tags: `#support #agents`*

@@ -36,6 +36,7 @@ Executive Assistants → Familienmitglieder
 | [[Support/PersonalAssistant/CLAUDE\|PersonalAssistant]] | Sport & Gesundheit Eltern | Suse-EA / Andy-EA |
 | [[Support/ManagementConsultant/CLAUDE\|ManagementConsultant]] | System-Optimierung | Suse-EA / Andy-EA |
 | [[Support/Steuerberater/CLAUDE\|Steuerberater]] | Steuern & absetzbare Ausgaben | Andy-EA / Suse-EA |
+| [[Support/Knaufi/CLAUDE\|Knaufi]] | Hausaufgaben-Coach & Lernbegleitung | Fabio (Felix-EA) |
 
 ---
 *Tags: `#agents #system`*
