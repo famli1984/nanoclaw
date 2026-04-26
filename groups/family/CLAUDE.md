@@ -36,6 +36,7 @@
 - **`Agents/Support/Familienberater/`** – Beziehungs- & Familientipps
 - **`Agents/Support/PersonalAssistant/`** – Sport & Gesundheit für Eltern
 - **`Agents/Support/ManagementConsultant/`** – System-Optimierung & Gesamtstrategie
+- **`Agents/Support/Steuerberater/`** – Steuerlich absetzbare Ausgaben & Steuererklärungsvorbereitung
 
 ---
 

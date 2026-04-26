@@ -22,6 +22,7 @@
 | [[Familienberater/CLAUDE\|Familienberater]] | Beziehungs- & Familientipps | Alle EAs |
 | [[PersonalAssistant/CLAUDE\|PersonalAssistant]] | Sport & Gesundheit | Suse-EA / Andy-EA |
 | [[ManagementConsultant/CLAUDE\|ManagementConsultant]] | System-Optimierung | Suse-EA / Andy-EA |
+| [[Steuerberater/CLAUDE\|Steuerberater]] | Steuern & absetzbare Ausgaben | Andy-EA / Suse-EA |
 
 ---
 *Tags: `#support #agents`*
