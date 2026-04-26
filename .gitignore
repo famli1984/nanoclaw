@@ -19,7 +19,9 @@ groups/*
 
 # Composer-managed CLAUDE.md artifacts (regenerated every spawn) and
 # per-group memory (CLAUDE.local.md) must never be committed.
+# Exception: groups/family/CLAUDE.local.md is the family system definition and IS tracked.
 **/CLAUDE.local.md
+!groups/family/CLAUDE.local.md
 **/.claude-shared.md
 **/.claude-fragments/
 
