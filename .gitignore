@@ -12,7 +12,10 @@ data/
 logs/
 
 # Groups - per-installation state, not tracked
+# Exception: groups/family is the family workspace and is backed up to the fork
 groups/*
+!groups/family
+!groups/family/**
 
 # Composer-managed CLAUDE.md artifacts (regenerated every spawn) and
 # per-group memory (CLAUDE.local.md) must never be committed.
